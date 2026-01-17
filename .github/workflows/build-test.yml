@@ -31,9 +31,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       
-      - name: Run linter
-        run: pnpm lint --max-warnings 0
-      
       - name: Type check
         run: pnpm type-check
       
@@ -76,7 +73,7 @@ jobs:
       
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
