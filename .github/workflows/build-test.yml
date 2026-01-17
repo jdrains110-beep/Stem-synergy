@@ -29,7 +29,10 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
+      
+      - name: Verify @types/three installed
+        run: ls -la node_modules/@types/ | grep three || echo "@types/three not found"
       
       - name: Type check
         run: pnpm type-check
@@ -59,7 +62,7 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
       
       - name: Install Playwright
         run: pnpm exec playwright install --with-deps
