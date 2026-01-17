@@ -121,19 +121,31 @@ export function isPermanentlySecured(): boolean {
 }
 
 // Auto-validate on module load
-const validation = validatePermanentSnapshot()
+const validation = validatePermanentSnapshot();
 if (validation.valid) {
-  console.log(`[PERMANENT SNAPSHOT] ${validation.message}`)
+  // Only log in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[PERMANENT SNAPSHOT] ${validation.message}`);
+  }
 } else {
-  console.error(`[PERMANENT SNAPSHOT] ${validation.message}`)
-  console.error(`[PERMANENT SNAPSHOT] ${validation.action}`)
+  console.error(`[PERMANENT SNAPSHOT] ${validation.message}`);
+  console.error(`[PERMANENT SNAPSHOT] ${validation.action}`);
 }
 
-// Verify the snapshot is frozen and cannot be modified
-try {
-  // @ts-ignore - Intentionally trying to modify frozen object to verify security
-  PERMANENT_TWIN_TOWER_NETWORK_SNAPSHOT.TOTAL_COMPANIES = 999
-  console.error('[PERMANENT SNAPSHOT] SECURITY BREACH: Snapshot was modified!')
-} catch (error) {
-  console.log('[PERMANENT SNAPSHOT] Security confirmed: Object is frozen and incorruptible')
+// Verify the snapshot is frozen and cannot be modified (security check)
+function verifySnapshotIntegrity(): void {
+  try {
+    // Attempt to modify frozen object - this will fail silently in non-strict mode
+    // and throw in strict mode, confirming the object is truly frozen
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const testObject = PERMANENT_TWIN_TOWER_NETWORK_SNAPSHOT as any;
+    testObject.TOTAL_COMPANIES = 999;
+    console.error('[PERMANENT SNAPSHOT] SECURITY BREACH: Snapshot was modified!');
+  } catch (_error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[PERMANENT SNAPSHOT] Security confirmed: Object is frozen and incorruptible');
+    }
+  }
 }
+
+verifySnapshotIntegrity();
