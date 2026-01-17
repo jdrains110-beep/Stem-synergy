@@ -1,9 +1,14 @@
+import type React from "react";
 import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { AppWrapper } from "@/components/app-wrapper";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Stem Synergy - AI Housing Blueprint Platform",
-  description: "AI-powered housing blueprint platform with Claude Vision, 3D visualization, and real estate integration.",
+  title: "Stem Synergy - AI Blueprint Generator",
+  description: "Interactive advanced model for drawing blueprints for housing development through description or pictures",
+    generator: 'Stem Synergy AI'
 };
 
 export default function RootLayout({
@@ -13,8 +18,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        {children}
+      <head>
+        <style>{`
+html {
+  font-family: ${GeistSans.style.fontFamily};
+  --font-sans: ${GeistSans.variable};
+  --font-mono: ${GeistMono.variable};
+}
+        `}</style>
+      </head>
+      <body>
+        <AppWrapper>{children}</AppWrapper>
       </body>
     </html>
   );

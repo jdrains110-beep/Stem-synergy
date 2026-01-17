@@ -1,0 +1,52 @@
+{
+  "buildCommand": "pnpm build",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "env": [
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_URL",
+      "description": "Supabase project URL",
+      "value": "",
+      "required": false
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "description": "Supabase anonymous key",
+      "value": "",
+      "required": false
+    },
+    {
+      "key": "ANTHROPIC_API_KEY",
+      "description": "Anthropic API key for Claude Vision",
+      "value": "",
+      "required": false
+    },
+    {
+      "key": "NEXT_PUBLIC_ENABLE_3D_VISUALIZATION",
+      "description": "Enable 3D floor plan visualization",
+      "value": "true",
+      "required": false
+    },
+    {
+      "key": "NEXT_PUBLIC_ENABLE_COLLABORATION",
+      "description": "Enable collaboration features",
+      "value": "true",
+      "required": false
+    },
+    {
+      "key": "NEXT_PUBLIC_ENABLE_REAL_ESTATE_DATA",
+      "description": "Enable real estate market data integration",
+      "value": "true",
+      "required": false
+    },
+    {
+      "key": "NEXT_PUBLIC_ENABLE_PDF_EXPORT",
+      "description": "Enable PDF export functionality",
+      "value": "true",
+      "required": false
+    }
+  ],
+  "regions": ["sfo1"],
+  "public": true
+}
