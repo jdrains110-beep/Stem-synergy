@@ -6,10 +6,35 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/validation-key.txt',
+        destination: '/api/validation-key',
+      },
+    ]
+  },
   async headers() {
     return [
       {
         source: '/validation-key.txt',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/plain; charset=utf-8',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+      {
+        source: '/api/validation-key',
         headers: [
           {
             key: 'Content-Type',
