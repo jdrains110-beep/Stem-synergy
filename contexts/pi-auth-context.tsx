@@ -30,6 +30,19 @@ declare global {
     Pi: {
       init: (config: { version: string; sandbox?: boolean }) => Promise<void>;
       authenticate: (scopes: string[]) => Promise<PiAuthResult>;
+      createPayment: (
+        paymentData: {
+          amount: number;
+          memo: string;
+          metadata: Record<string, any>;
+        },
+        callbacks: {
+          onReadyForServerApproval: (paymentId: string) => void;
+          onReadyForServerCompletion: (paymentId: string, txid: string) => void;
+          onCancel: (paymentId: string) => void;
+          onError: (error: Error, payment?: any) => void;
+        }
+      ) => void;
     };
   }
 }
@@ -75,7 +88,8 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
 
   const authenticateAndLogin = async (): Promise<void> => {
     setAuthMessage("Authenticating with Pi Network...");
-    const piAuthResult = await window.Pi.authenticate(["username"]);
+    // Request both username and payments scopes
+    const piAuthResult = await window.Pi.authenticate(["username", "payments"]);
 
     setAuthMessage("Logging in to backend...");
     const loginRes = await api.post<LoginDTO>(BACKEND_URLS.LOGIN, {

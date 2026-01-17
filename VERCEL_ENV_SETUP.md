@@ -7,20 +7,27 @@ All environment variables are optional. The app will run without any configurati
 
 ## Optional Variables
 
-### 1. Supabase Database (for data persistence)
+### 1. Pi Network API (for payments)
+```
+PI_API_KEY=
+```
+**Get from:** Pi Developer Portal → Your App → API Keys (https://develop.pi or develop.pinet.com in Pi Browser)
+**Required for:** User-to-App payments, Server-Side Approval & Completion
+
+### 2. Supabase Database (for data persistence)
 ```
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 **Get from:** https://supabase.com/dashboard/project/_/settings/api
 
-### 2. Anthropic Claude API (for AI blueprint generation)
+### 3. Anthropic Claude API (for AI blueprint generation)
 ```
 ANTHROPIC_API_KEY=
 ```
 **Get from:** https://console.anthropic.com/settings/keys
 
-### 3. Feature Flags (already enabled by default)
+### 4. Feature Flags (already enabled by default)
 ```
 NEXT_PUBLIC_ENABLE_3D_VISUALIZATION=true
 NEXT_PUBLIC_ENABLE_COLLABORATION=true
