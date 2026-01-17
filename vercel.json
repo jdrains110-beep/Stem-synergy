@@ -8,19 +8,19 @@
       "key": "NEXT_PUBLIC_SUPABASE_URL",
       "description": "Supabase project URL",
       "value": "",
-      "required": true
+      "required": false
     },
     {
       "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
       "description": "Supabase anonymous key",
       "value": "",
-      "required": true
+      "required": false
     },
     {
       "key": "ANTHROPIC_API_KEY",
       "description": "Anthropic API key for Claude Vision",
       "value": "",
-      "required": true
+      "required": false
     },
     {
       "key": "NEXT_PUBLIC_ENABLE_3D_VISUALIZATION",
