@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'stemsynergyaaffb7467.pinet.com',
+        hostname: process.env.NEXT_PUBLIC_APP_URL?.replace('https://', '') || 'stemsynergyaaffb7467.pinet.com',
       },
     ],
   },

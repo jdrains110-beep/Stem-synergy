@@ -10,10 +10,10 @@ function HouseModel() {
   const meshRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
-    // Optional: Add subtle rotation animation
-    if (meshRef.current) {
-      // meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;
-    }
+    // Optional: Uncomment for subtle rotation animation
+    // if (meshRef.current) {
+    //   meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;
+    // }
   });
 
   return (

@@ -54,9 +54,17 @@ export default function UploadBlueprintPage() {
     e.stopPropagation();
     
     const droppedFile = e.dataTransfer.files?.[0];
-    if (droppedFile) {
-      fileInputRef.current!.files = e.dataTransfer.files;
-      handleFileChange({ target: { files: e.dataTransfer.files } } as any);
+    if (droppedFile && fileInputRef.current) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(droppedFile);
+      fileInputRef.current.files = dataTransfer.files;
+      
+      const changeEvent = new Event('change', { bubbles: true });
+      Object.defineProperty(changeEvent, 'target', { 
+        value: { files: dataTransfer.files },
+        writable: false 
+      });
+      handleFileChange(changeEvent as unknown as React.ChangeEvent<HTMLInputElement>);
     }
   };
 
