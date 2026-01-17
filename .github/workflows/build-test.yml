@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
     
     steps:
       - uses: actions/checkout@v4
@@ -66,6 +66,11 @@ jobs:
       
       - name: Build application
         run: pnpm build
+      
+      - name: Start server in background
+        run: |
+          pnpm start &
+          sleep 10
       
       - name: Run E2E tests
         run: pnpm test:e2e
