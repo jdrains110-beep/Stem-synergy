@@ -12,11 +12,11 @@
 
           // Backend Configuration
           export const BACKEND_CONFIG = {
-            BASE_URL: "https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com",
+            BASE_URL: typeof window !== 'undefined' ? window.location.origin : '',
           } as const;
 
           // Backend URLs
           export const BACKEND_URLS = {
-            LOGIN: `${BACKEND_CONFIG.BASE_URL}/v1/login`,
+            LOGIN: '/api/login',
 
           } as const;
