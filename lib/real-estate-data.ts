@@ -62,7 +62,7 @@ const mockMLS = {
       medianPrice: prices[Math.floor(prices.length / 2)],
       averagePricePerSqFt: pricesPerSqFt.reduce((a, b) => a + b, 0) / pricesPerSqFt.length,
       comparables,
-      marketTrend: ['up', 'down', 'stable' as const][Math.floor(Math.random() * 3)],
+      marketTrend: (['up', 'down', 'stable'] as const)[Math.floor(Math.random() * 3)] as 'up' | 'down' | 'stable',
       inventoryMonths: Math.random() * 6 + 2,
     }
   },

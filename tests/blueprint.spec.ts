@@ -48,7 +48,7 @@ test.describe('Blueprint Generator', () => {
     await page.waitForSelector('text=Blueprint Generated', { timeout: 10000 })
 
     // Intercept download
-    const downloadPromise = context.waitForEvent('download')
+    const downloadPromise = page.waitForEvent('download')
     await page.click('button:has-text("Download SVG")')
     const download = await downloadPromise
 
@@ -131,7 +131,7 @@ test.describe('Blueprint Export', () => {
     await page.waitForSelector('text=Blueprint Generated', { timeout: 10000 })
 
     // Try to download PDF (if available)
-    const downloadPromise = context.waitForEvent('download')
+    const downloadPromise = page.waitForEvent('download')
     const pdfButtons = await page.locator('button:has-text("Download PDF")').count()
 
     if (pdfButtons > 0) {

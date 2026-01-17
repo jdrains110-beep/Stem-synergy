@@ -191,7 +191,7 @@ export function BlueprintGenerator({ onBlueprintGenerated }: BlueprintGeneratorP
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setImageFile(e.files?.[0] || null)}
+                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
                     disabled={isGenerating}
                     className="hidden"
                     id="blueprint-image-input"
