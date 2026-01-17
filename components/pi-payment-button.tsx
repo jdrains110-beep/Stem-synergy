@@ -15,25 +15,7 @@ interface PiPaymentButtonProps {
   buttonText?: string;
 }
 
-declare global {
-  interface Window {
-    Pi: {
-      createPayment: (
-        paymentData: {
-          amount: number;
-          memo: string;
-          metadata: Record<string, any>;
-        },
-        callbacks: {
-          onReadyForServerApproval: (paymentId: string) => void;
-          onReadyForServerCompletion: (paymentId: string, txid: string) => void;
-          onCancel: (paymentId: string) => void;
-          onError: (error: Error, payment?: any) => void;
-        }
-      ) => void;
-    };
-  }
-}
+// Window.Pi type is defined in contexts/pi-auth-context.tsx
 
 export function PiPaymentButton({
   amount,
