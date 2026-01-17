@@ -86,39 +86,5 @@ jobs:
           name: playwright-report
           path: playwright-report/
 
-  deploy-preview:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    needs: [build, test-e2e]
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Deploy to Vercel (Preview)
-        uses: vercel/action@v5
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          VERCEL_ENV: preview
-
-  deploy-production:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [build, test-e2e]
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Deploy to Vercel (Production)
-        uses: vercel/action@v5
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: --prod
-        env:
-          VERCEL_ENV: production
+  # Vercel deployments are handled automatically via Vercel GitHub integration
+  # No manual deployment jobs needed - Vercel will deploy on push to main automatically
