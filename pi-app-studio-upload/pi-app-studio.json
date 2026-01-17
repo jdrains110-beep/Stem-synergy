@@ -1,0 +1,59 @@
+{
+  "appName": "Stem Synergy",
+  "appDescription": "Stem Synergy is an AI-powered platform that generates comprehensive corporate STEM blueprints using 3D visualizations and advanced analytics to help organizations design, optimize, and scale their STEM initiatives.",
+  "appUrl": "https://stemsynergy1368.pinet.com",
+  "appIcon": "https://stemsynergy1368.pinet.com/icon.png",
+  "appScreenshots": [
+    "https://stemsynergy1368.pinet.com/screenshot1.png",
+    "https://stemsynergy1368.pinet.com/screenshot2.png"
+  ],
+  "category": "Education",
+  "version": "1.0.0",
+  "validationKey": {
+    "location": "https://stemsynergy1368.pinet.com/validation-key.txt",
+    "key": "18753f1ee789c85d80b288876d8504a8d61335b46f3c44e402bf088180554eb1df10f229114d37c131556d91f94b0b180f92e392dc9d242fa85f30920175fcf1"
+  },
+  "permissions": {
+    "username": {
+      "required": true,
+      "reason": "To personalize your experience and save your blueprints"
+    },
+    "payments": {
+      "required": true,
+      "reason": "To enable premium features and blueprint generation credits"
+    }
+  },
+  "features": [
+    "AI-powered STEM blueprint generation",
+    "3D interactive visualizations",
+    "Corporate data analysis from 677 companies",
+    "Image-to-blueprint conversion",
+    "Credit-based premium features"
+  ],
+  "developerInfo": {
+    "name": "Jeremiah Drains",
+    "github": "jdrains110-beep",
+    "repository": "https://github.com/jdrains110-beep/Stem-synergy"
+  },
+  "technicalDetails": {
+    "framework": "Next.js 16.1.3",
+    "piSdkVersion": "2.0",
+    "sandbox": false,
+    "apiEndpoints": {
+      "login": "/api/login",
+      "paymentApprove": "/api/pi/payments/approve",
+      "paymentComplete": "/api/pi/payments/complete",
+      "health": "/api/health"
+    }
+  },
+  "pricing": {
+    "freeTier": {
+      "credits": 10,
+      "features": "Basic blueprint generation"
+    },
+    "premiumTier": {
+      "cost": "Variable Pi",
+      "features": "Advanced AI analysis, unlimited generations, premium templates"
+    }
+  }
+}
