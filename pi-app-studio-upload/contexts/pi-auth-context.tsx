@@ -50,6 +50,7 @@ declare global {
 interface PiAuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
+  isError: boolean;
   authMessage: string;
   piAccessToken: string | null;
   userData: LoginDTO | null;
@@ -84,6 +85,7 @@ const loadPiSDK = (): Promise<void> => {
 export function PiAuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [authMessage, setAuthMessage] = useState("Initializing Pi Network...");
   const [piAccessToken, setPiAccessToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<LoginDTO | null>(null);
@@ -149,6 +151,7 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
     
     setHasAttemptedAuth(true);
     setIsLoading(true);
+    setIsError(false);
     
     // Set timeout for entire auth flow
     const timeoutId = setTimeout(() => {
@@ -158,6 +161,7 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
       );
       setIsAuthenticated(false);
       setIsLoading(false);
+      setIsError(true);
     }, 30000); // 30 second timeout
 
     try {
@@ -200,10 +204,12 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
       clearTimeout(timeoutId);
       setIsAuthenticated(true);
       setIsLoading(false);
+      setIsError(false);
       setAuthMessage("Authenticated successfully!");
     } catch (err) {
       clearTimeout(timeoutId);
       setIsLoading(false);
+      setIsError(true);
       console.error("❌ Pi Network initialization failed:", err);
       const errorMsg = err instanceof Error ? err.message : String(err);
       
@@ -229,6 +235,7 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
   const value: PiAuthContextType = {
     isAuthenticated,
     isLoading,
+    isError,
     authMessage,
     piAccessToken,
     userData,
