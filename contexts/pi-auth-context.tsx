@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { PI_NETWORK_CONFIG, BACKEND_URLS } from "@/lib/system-config";
 import { api, setApiAuthToken } from "@/lib/api";
+import type { PiAuthResult } from "@/types/pi-network";
 
 export type LoginDTO = {
   id: string;
@@ -17,39 +18,6 @@ export type LoginDTO = {
   credits_balance: number;
   terms_accepted: boolean;
 };
-
-interface PiAuthResult {
-  accessToken: string;
-  user: {
-    uid: string;
-    username: string;
-  };
-}
-
-declare global {
-  interface Window {
-    Pi?: {
-      init: (config: { version: string; sandbox?: boolean }) => Promise<void>;
-      authenticate: (
-        scopes: string[],
-        options?: { authMessage?: string }
-      ) => Promise<PiAuthResult>;
-      createPayment: (
-        paymentData: {
-          amount: number;
-          memo: string;
-          metadata: Record<string, any>;
-        },
-        callbacks: {
-          onReadyForServerApproval: (paymentId: string) => void;
-          onReadyForServerCompletion: (paymentId: string, txid: string) => void;
-          onCancel: (paymentId: string) => void;
-          onError: (error: Error, payment?: any) => void;
-        }
-      ) => void;
-    };
-  }
-}
 
 interface PiAuthContextType {
   isAuthenticated: boolean;

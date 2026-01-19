@@ -6,9 +6,7 @@ export function AuthLoadingScreen() {
   const { authMessage, isError, isLoading, reinitialize } = usePiAuth();
 
   const goToSetup = () => {
-    if (typeof window !== "undefined") {
-      window.location.href = '/setup';
-    }
+    window.location.href = '/setup';
   };
 
   return (
