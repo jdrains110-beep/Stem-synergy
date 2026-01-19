@@ -157,7 +157,7 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
     const timeoutId = setTimeout(() => {
       console.error('[Auth] Timeout after 30 seconds');
       setAuthMessage(
-        'Authentication timed out. Click "Go to Setup" to configure the app manually.'
+        'Authentication timed out. Please ensure PI_API_KEY is configured and try again.'
       );
       setIsAuthenticated(false);
       setIsLoading(false);
@@ -216,13 +216,13 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
       // If server error about PI_API_KEY, show setup message
       if (errorMsg.includes('PI_API_KEY') || errorMsg.includes('Server configuration')) {
         setAuthMessage(
-          'Server configuration error: PI_API_KEY not set. Click "Go to Setup" below.'
+          'Server configuration error: PI_API_KEY not set. Please configure environment variables.'
         );
         return;
       }
       
       setAuthMessage(
-        `Authentication failed: ${errorMsg}. Click "Try Again" or "Go to Setup".`
+        `Authentication failed: ${errorMsg}. Please try again.`
       );
     }
   };
