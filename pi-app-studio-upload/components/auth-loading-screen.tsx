@@ -3,14 +3,7 @@
 import { usePiAuth } from "@/contexts/pi-auth-context";
 
 export function AuthLoadingScreen() {
-  const { authMessage, reinitialize } = usePiAuth();
-  const isError = authMessage.toLowerCase().includes("failed") || 
-                  authMessage.toLowerCase().includes("timeout") ||
-                  authMessage.toLowerCase().includes("error");
-
-  const goToSetup = () => {
-    window.location.href = '/setup';
-  };
+  const { authMessage, isError, isLoading, reinitialize } = usePiAuth();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -18,7 +11,7 @@ export function AuthLoadingScreen() {
         <div className="flex justify-center">
           <div className="relative">
             <div className="w-20 h-20 rounded-full border-4 border-primary/20" />
-            {!isError && (
+            {isLoading && !isError && (
               <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-primary border-t-transparent animate-spin" />
             )}
             {isError && (
@@ -30,11 +23,10 @@ export function AuthLoadingScreen() {
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-2xl font-semibold">Stem Synergy</h2>
-          <p className="text-sm text-muted-foreground">Pi Network Authentication</p>
+          <h2 className="text-2xl font-semibold">Pi Network Authentication</h2>
           <p
-            className={`text-sm font-medium ${
-              isError ? "text-destructive" : "text-primary"
+            className={`text-sm ${
+              isError ? "text-destructive" : "text-muted-foreground"
             }`}
           >
             {authMessage}
@@ -43,33 +35,16 @@ export function AuthLoadingScreen() {
 
         {isError && (
           <div className="space-y-3">
-            <div className="flex gap-2">
-              <button
-                onClick={reinitialize}
-                className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-              >
-                Try Again
-              </button>
-              <button
-                onClick={goToSetup}
-                className="flex-1 px-4 py-2 border border-primary text-primary rounded-md hover:bg-primary/10 transition-colors"
-              >
-                Go to Setup
-              </button>
-            </div>
+            <button
+              onClick={reinitialize}
+              className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Try Again
+            </button>
             <p className="text-xs text-muted-foreground">
-              If authentication keeps failing, visit the Setup page to configure the app
+              If authentication keeps failing, ensure PI_API_KEY is configured in your environment variables
             </p>
           </div>
-        )}
-
-        {!isError && (
-          <button
-            onClick={goToSetup}
-            className="text-sm text-muted-foreground hover:text-primary underline"
-          >
-            Taking too long? Go to Setup
-          </button>
         )}
       </div>
     </div>
