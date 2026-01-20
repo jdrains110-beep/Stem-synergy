@@ -1,0 +1,41 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Deploy to Vercel (requires VERCEL_TOKEN secret)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "VERCEL_TOKEN not set. Set repository secret 'VERCEL_TOKEN' to enable deployments.";
+            exit 1;
+          fi
+          npx --yes vercel --prod --token "$VERCEL_TOKEN" --confirm
+
+# Note: For deterministic deployments, consider setting `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` as secrets and passing `--team`/`--project` flags to `vercel`.

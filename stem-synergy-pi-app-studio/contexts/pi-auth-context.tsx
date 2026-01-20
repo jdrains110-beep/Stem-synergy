@@ -231,11 +231,11 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
     isLoading,
     authMessage,
     piAccessToken,
-    userData,() => {
+    userData,
+    reinitialize: async () => {
       setHasAttemptedAuth(false);
       return initializePiAndAuthenticate();
-    }
-    reinitialize: initializePiAndAuthenticate,
+    },
   };
 
   return (

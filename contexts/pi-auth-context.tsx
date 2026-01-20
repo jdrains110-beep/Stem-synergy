@@ -49,6 +49,7 @@ declare global {
 
 interface PiAuthContextType {
   isAuthenticated: boolean;
+  isLoading: boolean;
   authMessage: string;
   piAccessToken: string | null;
   userData: LoginDTO | null;
@@ -82,12 +83,14 @@ const loadPiSDK = (): Promise<void> => {
 
 export function PiAuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [authMessage, setAuthMessage] = useState("Initializing Pi Network...");
   const [piAccessToken, setPiAccessToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<LoginDTO | null>(null);
 
   const authenticateAndLogin = async (): Promise<void> => {
     setAuthMessage("Authenticating with Pi Network...");
+    setIsLoading(true);
     // Request both username and payments scopes
     const piAuthResult = await window.Pi.authenticate(["username", "payments"]);
 
@@ -102,9 +105,11 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
     }
 
     setUserData(loginRes.data);
+    setIsLoading(false);
   };
 
   const initializePiAndAuthenticate = async () => {
+    setIsLoading(true);
     try {
       setAuthMessage("Loading Pi Network SDK...");
 
@@ -124,13 +129,15 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
       });
 
       await authenticateAndLogin();
-
       setIsAuthenticated(true);
+      setIsLoading(false);
     } catch (err) {
       console.error("❌ Pi Network initialization failed:", err);
       setAuthMessage(
         "Failed to authenticate or login. Please refresh and try again."
       );
+      setIsAuthenticated(false);
+      setIsLoading(false);
     }
   };
 
@@ -140,6 +147,7 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
 
   const value: PiAuthContextType = {
     isAuthenticated,
+    isLoading,
     authMessage,
     piAccessToken,
     userData,
