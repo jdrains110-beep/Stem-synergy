@@ -1,14 +1,11 @@
 # Pi App Studio Upload Instructions
 
-- **Last Updated**: 1/20/2026
-- **Canonical copy**: This file is the single source of truth for Pi App Studio uploads for Stem Synergy. Duplicate copies were removed on 1/20/2026.
-
 ## App Information for Pi App Studio
 
 ### Basic Information
 - **App Name**: Stem Synergy
 - **App URL**: `https://stemsynergy1368.pinet.com`
-- **App Description**: 
+- **App Description**:
   ```
   Stem Synergy is an AI-powered platform that generates comprehensive corporate STEM blueprints using 3D visualizations and advanced analytics. Transform your organization's STEM initiatives with data-driven insights from 677 companies.
   ```
@@ -20,7 +17,7 @@
 
 ### Domain Validation
 - **Validation Key URL**: `https://stemsynergy1368.pinet.com/validation-key.txt`
-- **Validation Key**: 
+- **Validation Key**:
   ```
   18753f1ee789c85d80b288876d8504a8d61335b46f3c44e402bf088180554eb1df10f229114d37c131556d91f94b0b180f92e392dc9d242fa85f30920175fcf1
   ```
@@ -34,7 +31,7 @@
 ### Permissions Required
 1. **Username** (Required)
    - Reason: "To personalize your experience and save your blueprints"
-   
+
 2. **Payments** (Required)
    - Reason: "To enable premium features and blueprint generation credits"
 
