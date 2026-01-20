@@ -11,12 +11,11 @@
  *
  * const createThing = async () => {
  *   const { data } = await api.post('/api/your-endpoint', { data: 'your data' });
- *   console.log(data);
  * };
  *
- * await api.get('/api/users');
- * await api.put('/api/user/123', { name: 'Updated' });
- * await api.delete('/api/user/123');
+ * await api.get<User>('/api/users');
+ * await api.put<User>('/api/user/123', { name: 'Updated' });
+ * await api.delete<void>('/api/user/123');
  */
 
 type FetchResponse<T> = {
@@ -31,13 +30,15 @@ export interface ApiError<T = unknown> extends Error {
   data: T;
 }
 
+type RequestBody = Record<string, unknown> | undefined;
+
 let authToken: string | null = null;
 
 const defaultHeaders: Record<string, string> = {
   "Content-Type": "application/json",
 };
 
-const request = async <T = any>(
+const request = async <T = unknown>(
   url: string,
   init: RequestInit = {}
 ): Promise<FetchResponse<T>> => {
@@ -45,7 +46,9 @@ const request = async <T = any>(
     ...defaultHeaders,
     ...(init.headers as Record<string, string> | undefined),
   };
-  if (authToken) headers["Authorization"] = authToken;
+  if (authToken) {
+    headers["Authorization"] = authToken;
+  }
 
   const response = await fetch(url, { ...init, headers });
 
@@ -76,27 +79,27 @@ const request = async <T = any>(
 };
 
 export const api = {
-  get: <T = any>(url: string, init?: RequestInit) =>
+  get: <T = unknown>(url: string, init?: RequestInit) =>
     request<T>(url, { ...init, method: "GET" }),
 
-  delete: <T = any>(url: string, init?: RequestInit) =>
+  delete: <T = unknown>(url: string, init?: RequestInit) =>
     request<T>(url, { ...init, method: "DELETE" }),
 
-  post: <T = any>(url: string, body?: any, init?: RequestInit) =>
+  post: <T = unknown>(url: string, body?: RequestBody, init?: RequestInit) =>
     request<T>(url, {
       ...init,
       method: "POST",
       body: body === undefined ? init?.body : JSON.stringify(body),
     }),
 
-  put: <T = any>(url: string, body?: any, init?: RequestInit) =>
+  put: <T = unknown>(url: string, body?: RequestBody, init?: RequestInit) =>
     request<T>(url, {
       ...init,
       method: "PUT",
       body: body === undefined ? init?.body : JSON.stringify(body),
     }),
 
-  patch: <T = any>(url: string, body?: any, init?: RequestInit) =>
+  patch: <T = unknown>(url: string, body?: RequestBody, init?: RequestInit) =>
     request<T>(url, {
       ...init,
       method: "PATCH",
@@ -104,6 +107,6 @@ export const api = {
     }),
 };
 
-export const setApiAuthToken = (token: string) => {
+export const setApiAuthToken = (token: string): void => {
   authToken = token;
 };

@@ -1,5 +1,8 @@
 # Pi App Studio Upload Instructions
 
+- **Last Updated**: 1/20/2026
+- **Canonical copy**: This file is the single source of truth for Pi App Studio uploads for Stem Synergy. Duplicate copies were removed on 1/20/2026.
+
 ## App Information for Pi App Studio
 
 ### Basic Information
