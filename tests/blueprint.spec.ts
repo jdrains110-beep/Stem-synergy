@@ -2,7 +2,50 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Blueprint Generator', () => {
   test.beforeEach(async ({ page }) => {
+    // Inject Pi SDK mock before navigating to prevent auth errors in CI
+    await page.addInitScript(() => {
+      // Mock Pi SDK for testing
+      (window as any).Pi = {
+        init: async () => {
+          console.log('[Mock Pi] init called');
+          return Promise.resolve();
+        },
+        authenticate: async () => {
+          console.log('[Mock Pi] authenticate called');
+          return {
+            accessToken: 'mock-token-for-testing',
+            user: {
+              uid: 'test-uid',
+              username: 'test_user',
+            },
+          };
+        },
+        createPayment: () => {
+          console.log('[Mock Pi] createPayment called');
+        },
+      };
+    });
+
+    // Mock the backend login API
+    await page.route('**/api/login', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          id: 'test-user-id',
+          username: 'test_user',
+          credits_balance: 100,
+          terms_accepted: true,
+        }),
+      });
+    });
+
     await page.goto('http://localhost:3000')
+    
+    // Wait for authentication to complete (or timeout)
+    await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {
+      console.log('Page load timeout - continuing anyway');
+    });
   })
 
   test('should navigate to blueprint generator', async ({ page }) => {

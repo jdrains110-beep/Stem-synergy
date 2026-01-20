@@ -50,6 +50,7 @@ declare global {
 interface PiAuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
+  isError: boolean;
   authMessage: string;
   piAccessToken: string | null;
   userData: LoginDTO | null;
@@ -84,6 +85,7 @@ const loadPiSDK = (): Promise<void> => {
 export function PiAuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [authMessage, setAuthMessage] = useState("Initializing Pi Network...");
   const [piAccessToken, setPiAccessToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<LoginDTO | null>(null);
@@ -149,15 +151,17 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
     
     setHasAttemptedAuth(true);
     setIsLoading(true);
+    setIsError(false);
     
     // Set timeout for entire auth flow
     const timeoutId = setTimeout(() => {
       console.error('[Auth] Timeout after 30 seconds');
       setAuthMessage(
-        'Authentication timed out. Click "Go to Setup" to configure the app manually.'
+        'Authentication timed out. Please ensure PI_API_KEY is configured and try again.'
       );
       setIsAuthenticated(false);
       setIsLoading(false);
+      setIsError(true);
     }, 30000); // 30 second timeout
 
     try {
@@ -200,23 +204,25 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
       clearTimeout(timeoutId);
       setIsAuthenticated(true);
       setIsLoading(false);
+      setIsError(false);
       setAuthMessage("Authenticated successfully!");
     } catch (err) {
       clearTimeout(timeoutId);
       setIsLoading(false);
+      setIsError(true);
       console.error("❌ Pi Network initialization failed:", err);
       const errorMsg = err instanceof Error ? err.message : String(err);
       
       // If server error about PI_API_KEY, show setup message
       if (errorMsg.includes('PI_API_KEY') || errorMsg.includes('Server configuration')) {
         setAuthMessage(
-          'Server configuration error: PI_API_KEY not set. Click "Go to Setup" below.'
+          'Server configuration error: PI_API_KEY not set. Please configure environment variables.'
         );
         return;
       }
       
       setAuthMessage(
-        `Authentication failed: ${errorMsg}. Click "Try Again" or "Go to Setup".`
+        `Authentication failed: ${errorMsg}. Please try again.`
       );
     }
   };
@@ -229,13 +235,14 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
   const value: PiAuthContextType = {
     isAuthenticated,
     isLoading,
+    isError,
     authMessage,
     piAccessToken,
-    userData,() => {
+    userData,
+    reinitialize: () => {
       setHasAttemptedAuth(false);
       return initializePiAndAuthenticate();
-    }
-    reinitialize: initializePiAndAuthenticate,
+    },
   };
 
   return (

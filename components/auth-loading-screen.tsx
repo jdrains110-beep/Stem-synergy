@@ -3,8 +3,7 @@
 import { usePiAuth } from "@/contexts/pi-auth-context";
 
 export function AuthLoadingScreen() {
-  const { authMessage, reinitialize } = usePiAuth();
-  const isError = authMessage.toLowerCase().includes("failed");
+  const { authMessage, isError, isLoading, reinitialize } = usePiAuth();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -12,7 +11,14 @@ export function AuthLoadingScreen() {
         <div className="flex justify-center">
           <div className="relative">
             <div className="w-20 h-20 rounded-full border-4 border-primary/20" />
-            <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+            {isLoading && !isError && (
+              <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+            )}
+            {isError && (
+              <div className="absolute inset-0 w-20 h-20 rounded-full flex items-center justify-center text-4xl">
+                ⚠️
+              </div>
+            )}
           </div>
         </div>
 
@@ -28,12 +34,17 @@ export function AuthLoadingScreen() {
         </div>
 
         {isError && (
-          <button
-            onClick={reinitialize}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-          >
-            Try Again
-          </button>
+          <div className="space-y-3">
+            <button
+              onClick={reinitialize}
+              className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Try Again
+            </button>
+            <p className="text-xs text-muted-foreground">
+              If authentication keeps failing, ensure PI_API_KEY is configured in your environment variables
+            </p>
+          </div>
         )}
       </div>
     </div>
