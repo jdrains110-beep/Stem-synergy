@@ -25,7 +25,7 @@
 - **Pi Subdomain**: stemsynergy1368.pinet.com
 
 ### API Configuration
-- **Pi API Key**: `f3eqqvo6a8iwcpe3bactyauoslzvsjkeudefmoqy7i48whlkcyjviodvbixttvyy`
+- **Pi API Key**: `6flrnxjjc1dyqukxyn3aog5srnmjmdfqkpufcto68ghjmq5gutwjzvze3cw77eiw`
 - **API Key Location**: Configured in Vercel environment variables (Production, Preview, Development)
 
 ### Permissions Required
@@ -80,7 +80,7 @@
 
 ### Step 5: Add API Key
 - Your Pi API Key is already configured in Vercel
-- Use key: `f3eqqvo6a8iwcpe3bactyauoslzvsjkeudefmoqy7i48whlkcyjviodvbixttvyy`
+- Use key: `6flrnxjjc1dyqukxyn3aog5srnmjmdfqkpufcto68ghjmq5gutwjzvze3cw77eiw`
 
 ### Step 6: Test the App
 1. Open Pi Browser
